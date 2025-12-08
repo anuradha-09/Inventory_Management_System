@@ -1,0 +1,31 @@
+﻿@using Inventory_Management_System.Models;
+@model Supplier
+@{
+    ViewData["Title"] = "Supplier Details";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text">
+            <strong>Email:</strong> @Model.Email
+        </p>
+
+        <h6>Products</h6>
+        <ul>
+            @if (Model.Products != null && Model.Products.Any())
+            {
+                foreach (var p in Model.Products)
+                {
+                    <li>@p.Name (@p.Quantity)</li>
+                }
+            }
+            else
+            {
+                <li>No products.</li>
+            }
+        </ul>
+
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </div>
+</div>

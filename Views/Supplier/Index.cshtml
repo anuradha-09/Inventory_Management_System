@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@model IEnumerable<Inventory_Management_System.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Supplier";
+}
+
+<h2>Suppliers</h2>
+
+<p>
+    <a href="/Supplier/Create" class="btn btn-primary">Add New Supplier</a>
+
+
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Products</th>
+            <th style="width:180px">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.Name</td>
+                    <td>@s.Email</td>
+
+                    <td>
+                        @(s.Products != null && s.Products.Any()
+                                        ? s.Products.Count()
+                                        : 0)
+            </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@s.SupplierId" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@s.SupplierId" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    No suppliers found.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
