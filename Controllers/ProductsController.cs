@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ProductsController : Controller
 {
-    private static List<Product> _products = new List<Product>();
+    public static List<Product> _products = new List<Product>();
     private static int _nextId = 1;
 
     public IActionResult Index() => View(_products);

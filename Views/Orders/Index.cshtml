@@ -1,0 +1,18 @@
+﻿<h2>Orders</h2>
+<a href="/Orders/Create">Add Order</a>
+<table border="1" cellpadding="8" style="margin-top:10px;">
+	<tr><th>ID</th><th>Product</th><th>Quantity</th><th>Customer</th><th>Actions</th></tr>
+	@foreach (var o in Model)
+	{
+		<tr>
+			<td>@o.Id</td>
+			<td>@o.ProductName</td>
+			<td>@o.Quantity</td>
+			<td>@o.CustomerName</td>
+			<td>
+				<a href="/Orders/Edit/@o.Id">Edit</a> |
+				<a href="/Orders/Delete/@o.Id">Delete</a>
+			</td>
+		</tr>
+	}
+</table>

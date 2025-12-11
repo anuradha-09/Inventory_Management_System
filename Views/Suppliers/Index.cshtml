@@ -1,0 +1,17 @@
+﻿<h2>Suppliers</h2>
+<a href="/Suppliers/Create">Add Supplier</a>
+<table border="1" cellpadding="8" style="margin-top:10px;">
+    <tr><th>ID</th><th>Name</th><th>Contact</th><th>Actions</th></tr>
+    @foreach (var s in Model)
+    {
+        <tr>
+            <td>@s.Id</td>
+            <td>@s.Name</td>
+            <td>@s.Contact</td>
+            <td>
+                <a href="/Suppliers/Edit/@s.Id">Edit</a> |
+                <a href="/Suppliers/Delete/@s.Id">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
