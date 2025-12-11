@@ -1,0 +1,9 @@
+<h2>Edit Product</h2>
+<form method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <label>Name:</label>
+    <input name="Name" value="@Model.Name" required /> <br/><br/>
+    <label>Stock:</label>
+    <input name="Stock" type="number" value="@Model.Stock"/> <br/><br/>
+    <button type="submit">Update</button>
+</form>

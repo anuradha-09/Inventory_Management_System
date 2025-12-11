@@ -1,0 +1,16 @@
+<h2>Products</h2>
+<a href="/Products/Create">Add Product</a>
+<table border="1" cellpadding="8" style="margin-top:10px;">
+    <tr><th>ID</th><th>Name</th><th>Stock</th><th>Actions</th></tr>
+    @foreach(var p in Model){
+        <tr>
+            <td>@p.Id</td>
+            <td>@p.Name</td>
+            <td>@p.Stock</td>
+            <td>
+                <a href="/Products/Edit/@p.Id">Edit</a> |
+                <a href="/Products/Delete/@p.Id">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
