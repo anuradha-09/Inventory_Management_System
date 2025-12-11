@@ -1,0 +1,23 @@
+# Visual Studio files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build output
+bin/
+obj/
+*.exe
+*.dll
+
+# Logs
+*.log
+
+# Node/React files (if any)
+node_modules/
+dist/
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
