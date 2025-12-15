@@ -1,9 +1,18 @@
-<h2>Edit Product</h2>
-<form method="post">
+@model Product
+
+<h2 class="text-2xl font-bold mb-4">Edit Product</h2>
+
+<form method="post" class="max-w-md bg-white p-6 rounded shadow-md">
     <input type="hidden" name="Id" value="@Model.Id" />
-    <label>Name:</label>
-    <input name="Name" value="@Model.Name" required /> <br/><br/>
-    <label>Stock:</label>
-    <input name="Stock" type="number" value="@Model.Stock"/> <br/><br/>
-    <button type="submit">Update</button>
+
+    <label class="block mb-2 font-semibold">Name:</label>
+    <input name="Name" value="@Model.Name" required class="w-full mb-4 px-3 py-2 border rounded" />
+
+    <label class="block mb-2 font-semibold">Stock:</label>
+    <input name="Stock" type="number" value="@Model.Stock" class="w-full mb-4 px-3 py-2 border rounded" />
+
+    <div class="flex justify-between">
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Update</button>
+        <a href="/Products" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</a>
+    </div>
 </form>

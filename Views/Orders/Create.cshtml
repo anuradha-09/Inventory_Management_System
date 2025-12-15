@@ -1,0 +1,59 @@
+﻿@model InventoryWebApp.Models.Order
+@{
+    ViewBag.Title = "Create Order";
+}
+
+<h2 class="text-2xl font-bold mb-4">Add Order</h2>
+
+<form method="post" class="max-w-md bg-white p-6 rounded shadow-md">
+
+    <!-- Product -->
+    <label class="block mb-2 font-semibold">Product:</label>
+    <select name="ProductId" class="w-full mb-4 px-3 py-2 border rounded" required>
+        @if (ViewBag.Products != null)
+        {
+            foreach (var p in ViewBag.Products)
+            {
+                <option value="@p.Id">@p.Name</option>
+            }
+        }
+    </select>
+
+    <!-- Quantity -->
+    <label class="block mb-2 font-semibold">Quantity:</label>
+    <input type="number" name="Quantity" value="1" min="1"
+           class="w-full mb-4 px-3 py-2 border rounded" required />
+
+    <!-- Supplier -->
+    <label class="block mb-2 font-semibold">Supplier:</label>
+    <select name="SupplierName" class="w-full mb-4 px-3 py-2 border rounded" required>
+        @if (ViewBag.Suppliers != null)
+        {
+            foreach (var s in ViewBag.Suppliers)
+            {
+                <option value="@s.Name">@s.Name</option>
+            }
+        }
+    </select>
+
+    <!-- Status -->
+    <label class="block mb-2 font-semibold">Status:</label>
+    <select name="Status" class="w-full mb-4 px-3 py-2 border rounded">
+        <option value="Processing">Processing</option>
+        <option value="Delivered">Delivered</option>
+        <option value="Cancelled">Cancelled</option>
+    </select>
+
+    <!-- Buttons -->
+    <div class="flex justify-between mt-6">
+        <button type="submit"
+                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+            Save
+        </button>
+
+        <a href="/Orders"
+           class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+            Cancel
+        </a>
+    </div>
+</form>

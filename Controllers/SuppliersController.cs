@@ -1,51 +1,57 @@
-﻿namespace InventoryWebApp.Controllers
-{
-    using InventoryWebApp.Models;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using InventoryWebApp.Data;
+using InventoryWebApp.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
+namespace InventoryWebApp.Controllers
+{
     public class SuppliersController : Controller
     {
-        private static List<Supplier> _suppliers = new List<Supplier>();
-        private static int _nextId = 1;
+        private readonly InventoryDbContext _context;
 
-        public IActionResult Index() => View(_suppliers);
+        public SuppliersController(InventoryDbContext context)
+        {
+            _context = context;
+        }
+
+        public IActionResult Index()
+        {
+            return View(_context.Suppliers.ToList());
+        }
 
         public IActionResult Create() => View();
 
         [HttpPost]
         public IActionResult Create(Supplier s)
         {
-            s.Id = _nextId++;
-            _suppliers.Add(s);
+            _context.Suppliers.Add(s);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)
         {
-            var s = _suppliers.FirstOrDefault(x => x.Id == id);
-            return View(s);
+            var supplier = _context.Suppliers.Find(id);
+            return View(supplier);
         }
 
         [HttpPost]
         public IActionResult Edit(Supplier updated)
         {
-            var s = _suppliers.FirstOrDefault(x => x.Id == updated.Id);
-            if (s != null)
-            {
-                s.Name = updated.Name;
-                s.Contact = updated.Contact;
-            }
+            _context.Suppliers.Update(updated);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
-            var s = _suppliers.FirstOrDefault(x => x.Id == id);
-            if (s != null) _suppliers.Remove(s);
+            var supplier = _context.Suppliers.Find(id);
+            if (supplier != null)
+            {
+                _context.Suppliers.Remove(supplier);
+                _context.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
     }
-
 }

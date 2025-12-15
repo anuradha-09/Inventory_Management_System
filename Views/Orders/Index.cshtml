@@ -1,18 +1,34 @@
-﻿<h2>Orders</h2>
-<a href="/Orders/Create">Add Order</a>
-<table border="1" cellpadding="8" style="margin-top:10px;">
-	<tr><th>ID</th><th>Product</th><th>Quantity</th><th>Customer</th><th>Actions</th></tr>
-	@foreach (var o in Model)
-	{
-		<tr>
-			<td>@o.Id</td>
-			<td>@o.ProductName</td>
-			<td>@o.Quantity</td>
-			<td>@o.CustomerName</td>
-			<td>
-				<a href="/Orders/Edit/@o.Id">Edit</a> |
-				<a href="/Orders/Delete/@o.Id">Delete</a>
-			</td>
-		</tr>
-	}
+﻿@model List<InventoryWebApp.Models.Order>
+
+<h2 class="text-2xl font-bold mb-4">Orders</h2>
+
+<a href="/Orders/Create" class="inline-block mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+    Add Order
+</a>
+
+<table class="min-w-full border border-gray-300 divide-y divide-gray-200">
+    <thead class="bg-gray-100">
+        <tr>
+            <th class="px-4 py-2 text-left text-gray-700 border-b">ID</th>
+            <th class="px-4 py-2 text-left text-gray-700 border-b">Product</th>
+            <th class="px-4 py-2 text-left text-gray-700 border-b">Quantity</th>
+            <th class="px-4 py-2 text-left text-gray-700 border-b">Supplier</th>
+            <th class="px-4 py-2 text-left text-gray-700 border-b">Actions</th>
+        </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td class="px-4 py-2 border-b">@o.Id</td>
+                <td class="px-4 py-2 border-b">@o.ProductName</td>
+                <td class="px-4 py-2 border-b">@o.Quantity</td>
+                <td class="px-4 py-2 border-b">@o.SupplierName</td>
+                <td class="px-4 py-2 border-b">
+                    <a href="/Orders/Edit/@o.Id" class="text-blue-600 hover:underline">Edit</a> |
+                    <a href="/Orders/Delete/@o.Id" class="text-red-600 hover:underline">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

@@ -1,8 +1,16 @@
-<h2>Add Product</h2>
-<form method="post">
-    <label>Name:</label>
-    <input name="Name" required /> <br/><br/>
-    <label>Stock:</label>
-    <input name="Stock" type="number" value="0"/> <br/><br/>
-    <button type="submit">Save</button>
+@model Product
+
+<h2 class="text-2xl font-bold mb-4">Add Product</h2>
+
+<form method="post" class="max-w-md bg-white p-6 rounded shadow-md">
+    <label class="block mb-2 font-semibold">Name:</label>
+    <input name="Name" required class="w-full mb-4 px-3 py-2 border rounded" />
+
+    <label class="block mb-2 font-semibold">Stock:</label>
+    <input name="Stock" type="number" value="0" class="w-full mb-4 px-3 py-2 border rounded" />
+
+    <div class="flex justify-between">
+        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save</button>
+        <a href="/Products" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</a>
+    </div>
 </form>

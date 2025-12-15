@@ -1,22 +1,28 @@
-# Visual Studio files
+# Visual Studio / .NET
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
+.vs/
 
 # Build output
 bin/
 obj/
 *.exe
 *.dll
+*.pdb
 
 # Logs
 *.log
 
-# Node/React files (if any)
+# Node / Tailwind
 node_modules/
 dist/
 .env
+*.lock
+
+# Publish output
+publish/
 
 # OS files
 .DS_Store

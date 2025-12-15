@@ -1,0 +1,33 @@
+﻿@model InventoryWebApp.Models.Order
+
+<h2 class="text-2xl font-bold mb-4">Edit Order</h2>
+
+<form method="post" class="max-w-md bg-white p-6 rounded shadow-md">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <label class="block mb-2 font-semibold">Product:</label>
+    <select name="ProductId" class="w-full mb-4 px-3 py-2 border rounded">
+        @foreach (var p in ViewBag.Products)
+        {
+            <option value="@p.Id" @(p.Id == Model.ProductId ? "selected" : "")>@p.Name</option>
+        }
+    </select>
+
+    <label class="block mb-2 font-semibold">Quantity:</label>
+    <input type="number" name="Quantity" value="@Model.Quantity" class="w-full mb-4 px-3 py-2 border rounded" />
+
+    <label class="block mb-2 font-semibold">Supplier Name:</label>
+    <input type="text" name="SupplierName" value="@Model.SupplierName" class="w-full mb-4 px-3 py-2 border rounded" />
+
+    <label class="block mb-2 font-semibold">Status:</label>
+    <select name="Status" class="w-full mb-4 px-3 py-2 border rounded">
+        <option value="Processing" @(Model.Status=="Processing" ? "selected" : "")>Processing</option>
+        <option value="Delivered" @(Model.Status=="Delivered" ? "selected" : "")>Delivered</option>
+        <option value="Cancelled" @(Model.Status=="Cancelled" ? "selected" : "")>Cancelled</option>
+    </select>
+
+    <div class="flex justify-between">
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Update</button>
+        <a href="/Orders" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</a>
+    </div>
+</form>

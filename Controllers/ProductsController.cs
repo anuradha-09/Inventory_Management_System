@@ -1,46 +1,58 @@
+using InventoryWebApp.Data;
+using InventoryWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using System.Collections.Generic;
 
-public class ProductsController : Controller
+namespace InventoryWebApp.Controllers
 {
-    public static List<Product> _products = new List<Product>();
-    private static int _nextId = 1;
-
-    public IActionResult Index() => View(_products);
-
-    public IActionResult Create() => View();
-
-    [HttpPost]
-    public IActionResult Create(Product p)
+    public class ProductsController : Controller
     {
-        p.Id = _nextId++;
-        _products.Add(p);
-        return RedirectToAction("Index");
-    }
+        private readonly InventoryDbContext _context;
 
-    public IActionResult Edit(int id)
-    {
-        var p = _products.FirstOrDefault(x => x.Id == id);
-        return View(p);
-    }
-
-    [HttpPost]
-    public IActionResult Edit(Product updated)
-    {
-        var p = _products.FirstOrDefault(x => x.Id == updated.Id);
-        if (p != null)
+        public ProductsController(InventoryDbContext context)
         {
-            p.Name = updated.Name;
-            p.Stock = updated.Stock;
+            _context = context;
         }
-        return RedirectToAction("Index");
-    }
 
-    public IActionResult Delete(int id)
-    {
-        var p = _products.FirstOrDefault(x => x.Id == id);
-        if (p != null) _products.Remove(p);
-        return RedirectToAction("Index");
+        public IActionResult Index()
+        {
+            var products = _context.Products.ToList();
+            return View(products);
+        }
+
+        public IActionResult Create() => View();
+
+        [HttpPost]
+        public IActionResult Create(Product p)
+        {
+            _context.Products.Add(p);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var product = _context.Products.Find(id);
+            return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Product updated)
+        {
+            _context.Products.Update(updated);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var product = _context.Products.Find(id);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

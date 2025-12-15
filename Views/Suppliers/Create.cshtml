@@ -1,0 +1,19 @@
+﻿@model InventoryWebApp.Models.Supplier
+@{
+    ViewBag.Title = "Create Supplier";
+}
+
+<h2 class="text-2xl font-bold mb-4">Add Supplier</h2>
+
+<form method="post" class="max-w-md bg-white p-6 rounded shadow-md">
+    <label class="block mb-2 font-semibold">Name:</label>
+    <input type="text" name="Name" class="w-full mb-4 px-3 py-2 border rounded" />
+
+    <label class="block mb-2 font-semibold">Contact:</label>
+    <input type="text" name="Contact" class="w-full mb-4 px-3 py-2 border rounded" />
+
+    <div class="flex justify-between">
+        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save</button>
+        <a href="/Suppliers" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</a>
+    </div>
+</form>

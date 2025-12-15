@@ -1,2 +1,38 @@
-<h2>Inventory Management System</h2>
-<a href="/Products">Go to Products</a>
+@using InventoryWebApp.Models
+@model InventoryWebApp.Models.Home
+
+<h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+   
+
+    <div class="border-2 border-red-500 text-black p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-lg font-semibold">Low Stock</h3>
+        <p class="text-2xl">@Model.LowStockProducts</p>
+    </div>
+
+    <div class="border-2 border-yellow-600 text-black p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-lg font-semibold">Orders Processing</h3>
+        <p class="text-2xl">@Model.OrdersProcessing</p>
+    </div>
+
+    <div class="border-2 border-blue-500 text-black p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-lg font-semibold">Orders Delivered</h3>
+        <p class="text-2xl">@Model.OrdersDelivered</p>
+    </div>
+
+    <div class="border-2 border-green-500 text-black p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-lg font-semibold">Total Orders</h3>
+        <p class="text-2xl">@Model.TotalOrders</p>
+    </div>
+
+    <div class="border-2 border-gray-500 text-black p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-lg font-semibold">Total Suppliers</h3>
+        <p class="text-2xl">@Model.TotalSuppliers</p>
+    </div>
+
+    <div class="border-2 border-orange-500 text-black p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-lg font-semibold">Total Products</h3>
+        <p class="text-2xl">@Model.TotalProducts</p>
+    </div>
+</div>
