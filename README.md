@@ -20,11 +20,12 @@ The application supports full CRUD operations through standard ASP.NET MVC actio
 
 **Frontend:**  
 - 💠 ASP.NET MVC 
-- 🎨 HTML, CSS   
+- 🎨 HTML, CSS, javascript, razors   
 
 **Backend:**  
 - 🟦 ASP.NET MVC  
-- 🧱 Entity Framework Core 
+- 🧱 Entity Framework Core
+- 🎨 Migrations
 
 **Database:**  
 - 🐬 MySQL  
