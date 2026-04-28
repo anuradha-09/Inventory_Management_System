@@ -28,7 +28,7 @@ The application supports full CRUD operations through standard ASP.NET MVC actio
 - 🎨 Migrations
 
 **Database:**  
-- 🐬 MySQL  
+- 🐬 SQLServer 
 
 **Tools:**  
 - 🧰 Visual Studio / VS Code  
