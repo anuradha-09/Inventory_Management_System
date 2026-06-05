@@ -1,18 +1,41 @@
 ﻿@model InventoryWebApp.Models.Supplier
 
-<h2 class="text-2xl font-bold mb-4">Edit Supplier</h2>
+@{
+    ViewData["Title"] = "Edit Supplier";
+}
 
-<form method="post" class="max-w-md bg-white p-6 rounded shadow-md">
-    <input type="hidden" name="Id" value="@Model.Id" />
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Edit Supplier</h2>
 
-    <label class="block mb-2 font-semibold">Name:</label>
-    <input type="text" name="Name" value="@Model.Name" class="w-full mb-4 px-3 py-2 border rounded" />
+    <form asp-controller="Suppliers" asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="Id" value="@Model.Id" />
 
-    <label class="block mb-2 font-semibold">Contact:</label>
-    <input type="text" name="Contact" value="@Model.Contact" class="w-full mb-4 px-3 py-2 border rounded" />
+        <label class="block mb-1 font-semibold">Name:</label>
+        <input type="text" name="Name" value="@Model.Name" required
+               class="w-full mb-4 px-3 py-2 border rounded" />
 
-    <div class="flex justify-between">
-        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Update</button>
-        <a href="/Suppliers" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</a>
-    </div>
-</form>
+        <label class="block mb-1 font-semibold">Contact:</label>
+        <input type="text" name="Contact" value="@Model.Contact" required
+               class="w-full mb-4 px-3 py-2 border rounded" />
+
+        <label class="block mb-1 font-semibold">Email:</label>
+        <input type="email" name="Email" value="@Model.Email"
+               class="w-full mb-4 px-3 py-2 border rounded" />
+
+        <label class="block mb-1 font-semibold">Address:</label>
+        <input type="text" name="Address" value="@Model.Address"
+               class="w-full mb-4 px-3 py-2 border rounded" />
+
+        <div class="flex justify-between mt-2">
+            <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Update
+            </button>
+            <a asp-controller="Suppliers" asp-action="Index"
+               class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>

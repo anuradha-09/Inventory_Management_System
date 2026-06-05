@@ -1,35 +1,51 @@
 using InventoryWebApp.Data;
 using InventoryWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
-public class HomeController : Controller
+namespace InventoryWebApp.Controllers
 {
-    private readonly InventoryDbContext _context;
-
-    // Inject DbContext via constructor
-    public HomeController(InventoryDbContext context)
+    [Authorize]
+    public class HomeController : Controller
     {
-        _context = context;
-    }
+        private readonly InventoryDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-    public IActionResult Index()
-    {
-        var products = _context.Products.ToList();
-        var orders = _context.Orders.ToList();
-        var suppliers = _context.Suppliers.ToList();
-
-        var model = new Home
+        public HomeController(InventoryDbContext context,
+                              UserManager<ApplicationUser> userManager)
         {
-            TotalProducts = products.Count,
-            LowStockProducts = products.Count(p => p.Stock < 5),
-            TotalOrders = orders.Count,
-            OrdersProcessing = orders.Count(o => o.Status == "Processing"),
-            OrdersDelivered = orders.Count(o => o.Status == "Delivered"),
-            TotalSuppliers = suppliers.Count
-        };
+            _context = context;
+            _userManager = userManager;
+        }
 
-        return View(model);
+        public IActionResult Index()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var products = _context.Products
+                .Where(p => p.UserId == userId).ToList();
+
+            var orders = _context.Orders
+                .Where(o => o.UserId == userId).ToList();
+
+            var suppliers = _context.Suppliers
+                .Where(s => s.UserId == userId).ToList();
+
+            var model = new Home
+            {
+                TotalProducts    = products.Count,
+                LowStockProducts = products.Count(p => p.Stock < p.LowStockThreshold),
+                LowStockList     = products.Where(p => p.Stock < p.LowStockThreshold).ToList(),
+                TotalOrders      = orders.Count,
+                OrdersProcessing = orders.Count(o => o.Status == "Processing"),
+                OrdersDelivered  = orders.Count(o => o.Status == "Delivered"),
+                OrdersCancelled  = orders.Count(o => o.Status == "Cancelled"),
+                TotalSuppliers   = suppliers.Count,
+                RecentOrders     = orders.OrderByDescending(o => o.OrderDate).Take(5).ToList()
+            };
+
+            return View(model);
+        }
     }
 }

@@ -1,59 +1,67 @@
 ﻿@model InventoryWebApp.Models.Order
+
 @{
-    ViewBag.Title = "Create Order";
+    ViewData["Title"] = "Add Order";
 }
 
-<h2 class="text-2xl font-bold mb-4">Add Order</h2>
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Add Order</h2>
 
-<form method="post" class="max-w-md bg-white p-6 rounded shadow-md">
-
-    <!-- Product -->
-    <label class="block mb-2 font-semibold">Product:</label>
-    <select name="ProductId" class="w-full mb-4 px-3 py-2 border rounded" required>
-        @if (ViewBag.Products != null)
-        {
-            foreach (var p in ViewBag.Products)
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="bg-red-100 text-red-600 px-4 py-2 rounded mb-4">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
             {
-                <option value="@p.Id">@p.Name</option>
+                <p>@error.ErrorMessage</p>
             }
-        }
-    </select>
+        </div>
+    }
 
-    <!-- Quantity -->
-    <label class="block mb-2 font-semibold">Quantity:</label>
-    <input type="number" name="Quantity" value="1" min="1"
-           class="w-full mb-4 px-3 py-2 border rounded" required />
+    <form asp-controller="Orders" asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
 
-    <!-- Supplier -->
-    <label class="block mb-2 font-semibold">Supplier:</label>
-    <select name="SupplierName" class="w-full mb-4 px-3 py-2 border rounded" required>
-        @if (ViewBag.Suppliers != null)
-        {
-            foreach (var s in ViewBag.Suppliers)
+        <label class="block mb-1 font-semibold">Product:</label>
+        <select name="ProductId" class="w-full mb-4 px-3 py-2 border rounded" required>
+            @if (ViewBag.Products != null)
             {
-                <option value="@s.Name">@s.Name</option>
+                foreach (var p in ViewBag.Products)
+                {
+                    <option value="@p.Id">@p.Name (Stock: @p.Stock)</option>
+                }
             }
-        }
-    </select>
+        </select>
 
-    <!-- Status -->
-    <label class="block mb-2 font-semibold">Status:</label>
-    <select name="Status" class="w-full mb-4 px-3 py-2 border rounded">
-        <option value="Processing">Processing</option>
-        <option value="Delivered">Delivered</option>
-        <option value="Cancelled">Cancelled</option>
-    </select>
+        <label class="block mb-1 font-semibold">Quantity:</label>
+        <input type="number" name="Quantity" value="1" min="1"
+               class="w-full mb-4 px-3 py-2 border rounded" required />
 
-    <!-- Buttons -->
-    <div class="flex justify-between mt-6">
-        <button type="submit"
-                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-            Save
-        </button>
+        <label class="block mb-1 font-semibold">Supplier:</label>
+        <select name="SupplierName" class="w-full mb-4 px-3 py-2 border rounded" required>
+            @if (ViewBag.Suppliers != null)
+            {
+                foreach (var s in ViewBag.Suppliers)
+                {
+                    <option value="@s.Name">@s.Name</option>
+                }
+            }
+        </select>
 
-        <a href="/Orders"
-           class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
-            Cancel
-        </a>
-    </div>
-</form>
+        <label class="block mb-1 font-semibold">Status:</label>
+        <select name="Status" class="w-full mb-4 px-3 py-2 border rounded">
+            <option value="Processing">Processing</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+        </select>
+
+        <div class="flex justify-between mt-2">
+            <button type="submit"
+                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                Save
+            </button>
+            <a asp-controller="Orders" asp-action="Index"
+               class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>

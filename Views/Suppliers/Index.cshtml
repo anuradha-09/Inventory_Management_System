@@ -1,32 +1,71 @@
 ﻿@model List<InventoryWebApp.Models.Supplier>
 
-<h2 class="text-2xl font-bold mb-4">Suppliers</h2>
+@{
+    ViewData["Title"] = "Suppliers";
+}
 
-<a href="/Suppliers/Create" class="inline-block mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-    Add Supplier
-</a>
+<!-- Toast -->
+@if (TempData["Success"] != null)
+{
+    <div id="toast" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50">
+        @TempData["Success"]
+    </div>
+    <script>setTimeout(() => document.getElementById('toast').remove(), 3000);</script>
+}
 
-<table class="min-w-full border border-gray-300 divide-y divide-gray-200">
+<div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Suppliers</h2>
+    <a asp-controller="Suppliers" asp-action="Create"
+       class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+        + Add Supplier
+    </a>
+</div>
+
+<!-- Search -->
+<input type="text" id="searchInput" placeholder="Search suppliers..."
+       class="w-full mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400" />
+
+<table class="min-w-full border border-gray-300 divide-y divide-gray-200" id="supplierTable">
     <thead class="bg-gray-100">
         <tr>
-            <th class="px-4 py-2 text-left text-gray-700 border-b">ID</th>
-            <th class="px-4 py-2 text-left text-gray-700 border-b">Name</th>
-            <th class="px-4 py-2 text-left text-gray-700 border-b">Contact</th>
-            <th class="px-4 py-2 text-left text-gray-700 border-b">Actions</th>
+            <th class="px-4 py-2 text-left text-gray-700">ID</th>
+            <th class="px-4 py-2 text-left text-gray-700">Name</th>
+            <th class="px-4 py-2 text-left text-gray-700">Contact</th>
+            <th class="px-4 py-2 text-left text-gray-700">Email</th>
+            <th class="px-4 py-2 text-left text-gray-700">Address</th>
+            <th class="px-4 py-2 text-left text-gray-700">Actions</th>
         </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
         @foreach (var s in Model)
         {
-            <tr>
-                <td class="px-4 py-2 border-b">@s.Id</td>
-                <td class="px-4 py-2 border-b">@s.Name</td>
-                <td class="px-4 py-2 border-b">@s.Contact</td>
-                <td class="px-4 py-2 border-b">
-                    <a href="/Suppliers/Edit/@s.Id" class="text-blue-600 hover:underline">Edit</a> |
-                    <a href="/Suppliers/Delete/@s.Id" class="text-red-600 hover:underline">Delete</a>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2">@s.Id</td>
+                <td class="px-4 py-2 font-medium">@s.Name</td>
+                <td class="px-4 py-2">@s.Contact</td>
+                <td class="px-4 py-2">@(s.Email ?? "-")</td>
+                <td class="px-4 py-2">@(s.Address ?? "-")</td>
+                <td class="px-4 py-2 space-x-2">
+                    <a asp-controller="Suppliers" asp-action="Edit" asp-route-id="@s.Id"
+                       class="text-blue-600 hover:underline">Edit</a>
+                    <form asp-controller="Suppliers" asp-action="Delete" method="post" class="inline"
+                          onsubmit="return confirm('Are you sure you want to delete @s.Name?')">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@s.Id" />
+                        <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                    </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#supplierTable tbody tr');
+        rows.forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(filter) ? '' : 'none';
+        });
+    });
+</script>

@@ -1,24 +1,55 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Inventory Management</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
-
     <!-- Navbar -->
     <header class="bg-gray-600 text-white shadow-lg">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-2xl font-bold tracking-wide">Inventory Manager</h1>
-            <nav class="space-x-6 font-medium">
-                <a href="/Home" class="hover:underline">Home</a>
-                <a href="/Products" class="hover:underline">Products</a>
-                <a href="/Orders" class="hover:underline">Orders</a>
-                <a href="/Suppliers" class="hover:underline">Suppliers</a>
+            <nav class="flex items-center space-x-4 font-medium">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="Home" asp-action="Index"
+                       class="bg-gray-500 hover:bg-gray-400 text-white px-4 py-2 rounded transition">
+                        Home
+                    </a>
+                    <a asp-controller="Products" asp-action="Index"
+                       class="bg-gray-500 hover:bg-gray-400 text-white px-4 py-2 rounded transition">
+                        Products
+                    </a>
+                    <a asp-controller="Orders" asp-action="Index"
+                       class="bg-gray-500 hover:bg-gray-400 text-white px-4 py-2 rounded transition">
+                        Orders
+                    </a>
+                    <a asp-controller="Suppliers" asp-action="Index"
+                       class="bg-gray-500 hover:bg-gray-400 text-white px-4 py-2 rounded transition">
+                        Suppliers
+                    </a>
+                    <span class="text-gray-300 text-sm">Hello, @User.Identity.Name!</span>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit"
+                                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition">
+                            Logout
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login"
+                       class="bg-gray-500 hover:bg-gray-400 text-white px-4 py-2 rounded transition">
+                        Login
+                    </a>
+                    <a asp-controller="Account" asp-action="Register"
+                       class="bg-white hover:bg-gray-200 text-gray-700 px-4 py-2 rounded transition">
+                        Register
+                    </a>
+                }
             </nav>
         </div>
     </header>
@@ -36,6 +67,5 @@
             © @DateTime.Now.Year Inventory Management System
         </div>
     </footer>
-
 </body>
 </html>

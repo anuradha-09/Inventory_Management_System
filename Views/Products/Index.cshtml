@@ -1,32 +1,83 @@
-@model List<Product>
+@model List<InventoryWebApp.Models.Product>
 
-<h2 class="text-2xl font-bold mb-4">Products</h2>
+@{
+    ViewData["Title"] = "Products";
+}
 
-<a href="/Products/Create" class="inline-block mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-    Add Product
-</a>
+<!-- Toast -->
+@if (TempData["Success"] != null)
+{
+    <div id="toast" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50">
+        @TempData["Success"]
+    </div>
+    <script>setTimeout(() => document.getElementById('toast').remove(), 3000);</script>
+}
 
-<table class="min-w-full border border-gray-300 divide-y divide-gray-200">
+<div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Products</h2>
+    <a asp-controller="Products" asp-action="Create"
+       class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+        + Add Product
+    </a>
+</div>
+
+<!-- Search -->
+<input type="text" id="searchInput" placeholder="Search products..."
+       class="w-full mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400" />
+
+<table class="min-w-full border border-gray-300 divide-y divide-gray-200" id="productTable">
     <thead class="bg-gray-100">
         <tr>
-            <th class="px-4 py-2 text-left text-gray-700 border-b">ID</th>
-            <th class="px-4 py-2 text-left text-gray-700 border-b">Name</th>
-            <th class="px-4 py-2 text-left text-gray-700 border-b">Stock</th>
-            <th class="px-4 py-2 text-left text-gray-700 border-b">Actions</th>
+            <th class="px-4 py-2 text-left text-gray-700">ID</th>
+            <th class="px-4 py-2 text-left text-gray-700">Name</th>
+            <th class="px-4 py-2 text-left text-gray-700">Category</th>
+            <th class="px-4 py-2 text-left text-gray-700">Price</th>
+            <th class="px-4 py-2 text-left text-gray-700">Stock</th>
+            <th class="px-4 py-2 text-left text-gray-700">Status</th>
+            <th class="px-4 py-2 text-left text-gray-700">Actions</th>
         </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
         @foreach (var p in Model)
         {
-            <tr>
-                <td class="px-4 py-2 border-b">@p.Id</td>
-                <td class="px-4 py-2 border-b">@p.Name</td>
-                <td class="px-4 py-2 border-b">@p.Stock</td>
-                <td class="px-4 py-2 border-b">
-                    <a href="/Products/Edit/@p.Id" class="text-blue-600 hover:underline">Edit</a> |
-                    <a href="/Products/Delete/@p.Id" class="text-red-600 hover:underline">Delete</a>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2">@p.Id</td>
+                <td class="px-4 py-2 font-medium">@p.Name</td>
+                <td class="px-4 py-2">@p.Category</td>
+                <td class="px-4 py-2">$@p.Price.ToString("0.00")</td>
+                <td class="px-4 py-2">@p.Stock</td>
+                <td class="px-4 py-2">
+                    @if (p.Stock < p.LowStockThreshold)
+                    {
+                        <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-semibold">Low Stock</span>
+                    }
+                    else
+                    {
+                        <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-semibold">In Stock</span>
+                    }
+                </td>
+                <td class="px-4 py-2 space-x-2">
+                    <a asp-controller="Products" asp-action="Edit" asp-route-id="@p.Id"
+                       class="text-blue-600 hover:underline">Edit</a>
+                    <form asp-controller="Products" asp-action="Delete" method="post" class="inline"
+                          onsubmit="return confirm('Are you sure you want to delete @p.Name?')">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@p.Id" />
+                        <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                    </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Search Script -->
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#productTable tbody tr');
+        rows.forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(filter) ? '' : 'none';
+        });
+    });
+</script>
